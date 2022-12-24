@@ -9,6 +9,7 @@ from PIL import Image
 pickle_in = open(r".\classifier.pkl", 'rb')
 classifier = pickle.load(pickle_in)
 
+print(classifier)
 
 def prediction(Attributes):  
    
@@ -54,46 +55,61 @@ def toCategoricalVar(Gender, Married, Dependents, Education, Self_Employed, Appl
     return [Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount,
         Loan_Amount_Term, Credit_History, Property_Area]
         
- 
+def add_bg_from_url():
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background-image: url("https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/finance/what-is-a-collateral-loan-717x404.jpg");
+             background-attachment: fixed;
+             background-size: cover
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
+
+
+
+
 def main():
       # giving the webpage a title
-    st.title("Loan Approval Prediction")
-      
+    add_bg_from_url()
+    # st.title("Loan Approval Prediction")
+
+    st.markdown("<h1 style='text-align: center; color: white;'>Loan Approval Prediction</h1>", unsafe_allow_html=True)
     # here we define some of the front end elements of the web page like 
     # the font and background color, the padding and the text to be displayed
-    html_temp = """
-    <div style ="background-color:yellow;padding:13px">
-    <h1 style ="color:black;text-align:center;">Streamlit Loan Approval Prediction ML App </h1>
-    </div>
-    """
-      
+    # html_temp = """
+    # <h1 style ="text-align:center;">Loan Approval Prediction</h1>
+    # """
+    # st.markdown(html_temp , )
     # this line allows us to display the front end aspects we have 
     # defined in the above code
-    st.markdown(html_temp, unsafe_allow_html = True)
       
     # the following lines create text boxes in which the user can enter 
     # the data required to make the prediction
     
     Gender = st.selectbox(
     'Gender',
-    ('Male', 'Female'))
+    ('select' , 'Male', 'Female'))
     Married = st.selectbox("Married", 
-    ('Yes' , 'No'))
-    Dependents = st.text_input("Dependents", "Type Here")
+    ('select' , 'Yes' , 'No'))
+    Dependents = st.text_input("Dependents")
     Education = st.selectbox(
     'Education',
-    ('Graduate', 'Not Graduate'))
+    ('select' , 'Graduate', 'Not Graduate'))
     Self_Employed = st.selectbox(
     'Self Employed',
-    ('Yes', 'No'))
-    ApplicantIncome = st.text_input("ApplicantIncome", "Type Here")
-    CoapplicantIncome = st.text_input("CoapplicantIncome", "Type Here")
-    LoanAmount = st.text_input("LoanAmount", "Type Here")
-    Loan_Amount_Term = st.text_input("Loan_Amount_Term", "Type Here")
-    Credit_History = st.text_input("Credit_History", "Type Here")
+    ('select' , 'Yes', 'No'))
+    ApplicantIncome = st.text_input("ApplicantIncome")
+    CoapplicantIncome = st.text_input("CoapplicantIncome")
+    LoanAmount = st.text_input("LoanAmount")
+    Loan_Amount_Term = st.text_input("Loan_Amount_Term")
+    Credit_History = st.text_input("Credit_History")
     Property_Area = st.selectbox(
     'Property Area',
-    ('Urban', 'Rural','Semi-Urban'))
+    ('select' , 'Urban', 'Rural','Semi-Urban'))
     
     Attributes = toCategoricalVar(Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount,
         Loan_Amount_Term, Credit_History, Property_Area)
@@ -103,11 +119,11 @@ def main():
     ans = ""
     if st.button("Predict"):
         result = prediction(Attributes)
-    if result == 1:
-        ans = "Loan approval is possible"
-    else:
-        ans = "Loan cannot be granted"
-    st.success(ans)
+        if result == 1:
+            ans = "Loan approval is possible"
+        else:
+            ans = "Loan cannot be granted"
+        st.success(ans)
      
 if __name__=='__main__':
     main()
