@@ -60,7 +60,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/finance/what-is-a-collateral-loan-717x404.jpg");
+             background-image: url("https://thumbs.dreamstime.com/z/top-view-blank-copyspace-pastel-color-calculator-tiny-home-model-credit-card-pen-as-frame-background-loan-debt-top-170258089.jpg");
              background-attachment: fixed;
              background-size: cover
          }}
@@ -77,7 +77,7 @@ def main():
     add_bg_from_url()
     # st.title("Loan Approval Prediction")
 
-    st.markdown("<h1 style='text-align: center; color: white;'>Loan Approval Prediction</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: black;'>Loan Approval Prediction</h1>", unsafe_allow_html=True)
     # here we define some of the front end elements of the web page like 
     # the font and background color, the padding and the text to be displayed
     # html_temp = """
@@ -89,7 +89,7 @@ def main():
       
     # the following lines create text boxes in which the user can enter 
     # the data required to make the prediction
-    
+    # st.markdown(".stTextInput > label {font-size:105%; font-weight:bold; color:blue;} ",unsafe_allow_html=True)
     Gender = st.selectbox(
     'Gender',
     ('select' , 'Male', 'Female'))
@@ -117,13 +117,30 @@ def main():
     
     result =""
     ans = ""
+    # t = """div.stButton > button:first-child {background-color: #00cc00;color:white;font-size:20px;height:3em;width:30em;border-radius:10px 10px 10px 10px;"""
+    # st.markdown("div.stButton > button:first-child {background-color: #00cc00;color:white;font-size:20px;height:3em;width:30em;border-radius:10px 10px 10px 10px;}", unsafe_allow_html=True)
+
+    m = st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        background-color: #002D62;
+        color:#ffffff;
+    }
+    
+    </style>""", unsafe_allow_html=True)
+
     if st.button("Predict"):
         result = prediction(Attributes)
         if result == 1:
-            ans = "Loan approval is possible"
+            t = """
+            <h5 style = "background-color: #EEFA64; padding-left: 10px; padding-top:10px;">Loan approval is possible</h5>
+            """
+            
         else:
-            ans = "Loan cannot be granted"
-        st.success(ans)
+            t = """
+        <h5 style = "background-color: #EEFA64;padding-left: 10px; padding-top:10px;">Loan cannot be granted</h5>
+        """
+        st.markdown(t , unsafe_allow_html=True)
      
 if __name__=='__main__':
     main()
